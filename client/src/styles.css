@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/* Design tokens. Blue ink is data and action; red pen is used only where a teacher's
+   red pen would be: failed marks and rejected rows. */
+@theme {
+  --font-sans: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-paper: #f3f5f8;   /* page plane */
+  --color-panel: #ffffff;   /* chart + table surface */
+  --color-rule: #dde2e9;    /* hairlines, gridlines */
+  --color-ink: #18212f;     /* primary text */
+  --color-ink-2: #4b5567;   /* secondary text */
+  --color-ink-3: #7a8496;   /* muted: axes, hints */
+  --color-sidebar: #16233b;
+
+  --color-brand: #2445a8;   /* register blue: series 1, links, primary action */
+  --color-brand-soft: #e8edfa;
+  --color-pen: #c23b33;     /* red pen: fail, rejected, problems */
+  --color-pen-soft: #fbeceb;
+  --color-pass: #1d6b40;    /* pass text (status good, text-safe step) */
+}
+
+@layer base {
+  body { @apply bg-paper font-sans text-ink antialiased; }
+  :focus-visible { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+  h1 { @apply text-[1.625rem] font-bold leading-tight tracking-[-0.01em]; }
+  h2 { @apply text-base font-semibold; }
+}
+
+@layer components {
+  .panel { @apply rounded-lg border border-rule bg-panel; }
+  .panel-head { @apply flex flex-wrap items-center justify-between gap-3 border-b border-rule px-5 py-3.5; }
+
+  .btn {
+    @apply inline-flex cursor-pointer items-center gap-2 rounded-md border border-rule bg-panel px-3.5 py-2 text-sm font-medium text-ink
+      no-underline transition-colors hover:enabled:border-ink-3 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary { @apply border-brand bg-brand text-white hover:enabled:border-[#1b367f] hover:enabled:bg-[#1b367f]; }
+  .btn-quiet { @apply border-transparent bg-transparent px-2 text-brand hover:enabled:border-transparent hover:enabled:underline; }
+  .field { @apply rounded-md border border-rule bg-panel px-3 py-2 text-sm; }
+
+  .data-table { @apply w-full border-collapse text-sm; }
+  .data-table th { @apply whitespace-nowrap border-b border-rule bg-paper/60 px-4 py-2.5 text-left text-[0.8125rem] font-semibold text-ink-2; }
+  .data-table td { @apply border-b border-rule px-4 py-2.5; }
+  .data-table tbody tr:last-child td { @apply border-b-0; }
+  .data-table .num { @apply text-right tabular-nums; }
+
+  .result { @apply inline-flex items-center gap-1.5 text-sm font-medium; }
+  .result::before { content: ""; @apply size-2 rounded-full bg-current; }
+  .result-pass { @apply text-pass; }
+  .result-fail { @apply text-pen; }
+
+  /* Rejected values are marked the way a teacher marks a mistake. */
+  .red-pen { text-decoration: underline wavy var(--color-pen); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+
+  .state { @apply rounded-lg border border-dashed border-rule bg-panel px-6 py-14 text-center; }
+  .spinner { @apply inline-block size-3.5 animate-spin rounded-full border-2 border-current border-r-transparent; }
+  .skeleton { @apply animate-pulse rounded bg-rule/70; }
+}
+
+/* The one orchestrated moment: the grade circle is drawn once when a report opens. */
+.pen-stroke { stroke-dasharray: 330; stroke-dashoffset: 330; animation: pen-draw 0.7s 0.15s ease-out forwards; }
+@keyframes pen-draw { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pen-stroke { animation: none; stroke-dashoffset: 0; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+}

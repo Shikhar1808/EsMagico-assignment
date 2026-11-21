@@ -1,0 +1,8 @@
+node_modules/
+client/dist/
+# Sample pack is confidential: do not commit.
+data/
+*.csv
+.env
+# The assignment brief is confidential too.
+*.pdf
