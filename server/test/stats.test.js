@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { shapeStats } from '../src/services/stats.service.js';
+import { shapeStats } from '../src/services/student.service.js';
 
 const subjects = (avg, below) => [{
   _id: null,

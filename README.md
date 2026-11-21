@@ -135,9 +135,9 @@ server/
     config/              settings from environment variables
     db/                  Mongoose connection and indexes
     models/Student.js    the students collection: fields, types, ranges, indexes
-    routes/              /api/imports, /api/students
-    controllers/         read the request, call a service, send the response
-    services/            import (validate, then upsert), student queries, overview stats
+    routes/index.js      every endpoint in one place: /api/imports, /api/students, /api/stats
+    controllers/index.js read the request, call a service, send the response
+    services/            import.service.js (validate, then upsert); student.service.js (list, report, overview stats)
     middlewares/         CSV upload limits, 404 and error handling
     helpers/
       csvValidator.js    every file and row rule; the core of the import
